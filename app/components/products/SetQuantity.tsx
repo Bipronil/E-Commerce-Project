@@ -4,8 +4,8 @@ import { CartProductType } from "@/app/product/[productId]/ProductDetails";
 import { dividerClasses } from "@mui/material";
 
 interface SetQtyProps{
-    cartCounter?: boolean,
-    cartProduct: CartProductType,
+    cartCounter?: boolean;
+    cartProduct: CartProductType;
     handleQtyIncrease: () => void;
     handleQtyDecrease: () => void;
 }

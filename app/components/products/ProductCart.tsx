@@ -32,12 +32,13 @@ const  ProductCard:React.FC<ProductCardProps> = ({data}) => {
         text-sm">
         <div className="flex flex-col items-center w-full gap-1">
             <div className="aspect-square overflow-hidden relative w-full">
-                <Image 
+                <Image
                  fill
-                src={data.images[0].image}
-                alt={data.name}
-                className="w-full h-full object-contain"
-                />          
+                 src={data.images[0].image}
+                 alt={data.name}
+                 className="w-full h-full object-contain"
+                 />          
+                
             </div>
             <div className="mt-4">{truncateText(data.name)}
 
