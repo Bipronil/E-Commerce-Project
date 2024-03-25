@@ -4,8 +4,12 @@ import Button from "@/app/components/Button";
 import ProductImage from "@/app/components/products/ProductImage";
 import SetColor from "@/app/components/products/SetColor";
 import SetQuantity from "@/app/components/products/SetQuantity";
+import { useCart } from "@/hooks/useCart";
 import { Rating } from "@mui/material";
-import { useCallback, useState } from "react";
+import { useRouter } from "next/navigation";
+import { useCallback, useEffect, useState } from "react";
+import { MdCheckBoxOutlineBlank } from "react-icons/md";
+import { CiCircleCheck } from "react-icons/ci";
 
 interface ProductDetailsProps{
     product: any
@@ -33,6 +37,8 @@ const Horizontal = () => {
 }
 
 const ProductDetails:React.FC<ProductDetailsProps> = ({product}) => {
+    const {handleAddProductToCart, cartProducts} = useCart()
+    const [isProductInCart, setisProductInCart] = useState(false)
 
     const [cartProduct, setCartProduct] = useState<CartProductType>({
         id: product.id,
@@ -44,6 +50,22 @@ const ProductDetails:React.FC<ProductDetailsProps> = ({product}) => {
         quantity: 1,
         price: product.price,
     });
+    const router = useRouter()
+    console.log(cartProducts)
+
+    useEffect(() => {
+        setisProductInCart(false)
+
+        if(cartProducts){
+            const existingindex = cartProducts.findIndex((item) => item.id === product.id)
+            if(existingindex > -1){
+                setisProductInCart(true);
+            }
+        }
+
+        
+    },[cartProducts])
+
 
     const productRating = product.reviews.reduce((acc:number, item:any) => item.rating + acc,0)/product.reviews.length
     const handleColorSelect = useCallback((value:SelectedImgType) =>{
@@ -98,6 +120,18 @@ const ProductDetails:React.FC<ProductDetailsProps> = ({product}) => {
             {product.inStock ? 'In Stock' : 'Out of Stock'}
         </div>
         <Horizontal/>
+        {isProductInCart ? <>
+            <p className="mb-2 text-slate-500 flex items-center gap-1">
+                <CiCircleCheck size={20} className="text-teal-400"/>
+                <span>Product Added to Cart</span>
+            </p>
+            <div className="max-w-[300px]">
+                <Button lable="View Cart" outline onClick={() => {
+                    router.push('/cart');
+                }}/>
+            </div>
+        
+        </> : <>
         <SetColor 
         cartProduct={cartProduct}
         images={product.images}
@@ -113,9 +147,11 @@ const ProductDetails:React.FC<ProductDetailsProps> = ({product}) => {
         <div className="max-w-[300px]">
             <Button
             lable="Add to Cart"
-            onClick={() => {}}
+            onClick={() => {handleAddProductToCart(cartProduct)}}
             />
         </div>
+        </>}
+        
       </div>
     </div> );
 

@@ -17,7 +17,7 @@ const Product = ({params} : {params : Iparams}) => {
             <ProductDetails product = {product}/>
             <div className="flex flex-col mt-20 gap-4">
                 <div>
-                    add rating
+                    Add rating
                 </div>
                 <div>
                  <ListRating product={product}/>
