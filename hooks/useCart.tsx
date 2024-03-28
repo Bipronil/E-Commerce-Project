@@ -51,7 +51,7 @@ export const CartContextProvider = (props:Props) => {
         if(cartProducts){
             const filteredProducts = cartProducts.filter((item) => {return item.id != product.id})
             setCartProducts(filteredProducts)
-            toast.success("Product Added to Cart")
+            toast.success("Product removed from Cart")
             localStorage.setItem('ShopifyCartItems', JSON.stringify(filteredProducts));
             
         }
